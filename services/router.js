@@ -1,3 +1,5 @@
+const AuthenticationController = require('../controllers/authentication_controller');
+
 var router = require('express').Router();
 
 function protected(req, res, next) {
@@ -7,5 +9,7 @@ function protected(req, res, next) {
 router.route('/protected')
 .get(protected);
 
+router.route('/signup')
+  .post(AuthenticationController.signup);
 
 module.exports = router;
