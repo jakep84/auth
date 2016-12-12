@@ -12,8 +12,9 @@ var userSchema = new Schema({
     required: 'Email address is required',
     validate: [validateEmail, 'Please enter a valid email']
   },
-  passoword:String,
+  passoword: {
+    type:String,
   }
 });
 
-module.exports = mongoose.model('user');
+module.exports = mongoose.model('user', userSchema);
