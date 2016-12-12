@@ -1,4 +1,7 @@
 const mongoose = require('mongoose');
+const Schema = mongoose.Schema;
+const bcrypt = require('bcrypt-nodejs');
+
 var  Schema = mongoose.Schema;
 
 var validateEmail = (email) => {
@@ -14,6 +17,22 @@ var userSchema = new Schema({
   },
   passoword: {
     type:String,
+  }
+});
+
+userSchema.pre('save', function(next) {
+  var user = this;
+  if(user.isNew || user.isModified('password')) {
+    bcrypt.genSalt(10, function(err, salt) {
+      if (err) {retrun next(err) }
+      bcrypt.hash(user.password, salt, null, function(err, hash) {
+        if(err) {return next (err) }
+        user.password = hash;
+        next();
+      });
+      });
+  } else {
+    next();
   }
 });
 
